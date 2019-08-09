@@ -99,10 +99,11 @@ Response:
 }
 ```
 
-### Register new user from auth0
-- Use auth0 SDK to authenticate and get the accessToken, idToken (https://auth0.com/docs/quickstart). Please see `public/auth0.html` for vanillajs example
-- Post the accessToken to `post /connect/auth0` with payload: `{accessToken: '********', idToken: '********', role: 'ADMIN'}`
-
 ### Register new user from cognito
 - Use `amazon-cognito-auth` to authenticate and get the accessToken, idToken. Please see `public/cognito.html` for vanillajs example
 - Post the accessToken to `post /connect/cognito` with payload: `{accessToken: '********', idToken: '********', role: 'ADMIN'}`
+
+
+### Register new user from auth0
+- Use auth0 SDK to authenticate and get the accessToken, idToken (https://auth0.com/docs/quickstart). Please see `public/auth0.html` for vanillajs example
+- Post the accessToken to `post /connect/auth0` with payload: `{accessToken: '********', idToken: '********', role: 'ADMIN'}`
