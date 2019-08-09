@@ -1,0 +1,38 @@
+{
+  "name": "core-auth-oauth2",
+  "version": "1.0.0",
+  "description": "core-auth-oauth2",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "jwk-to-pem": "^2.0.0",
+    "nconf": "^0.10.0",
+    "node-fetch": "^2.2.0",
+    "passport": "^0.4.0",
+    "passport-auth0": "^1.1.0",
+    "passport-jwt": "^4.0.0",
+    "passport-oauth2-cognito": "^0.1.0",
+    "pg": "^7.5.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.41.0",
+    "serverless-http": "^1.8.0",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudoptim/core-auth-oauth2.git"
+  },
+  "author": "Trinh Phuoc Thai <tphuocthai@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cloudoptim/core-auth-oauth2/issues"
+  },
+  "homepage": "https://github.com/cloudoptim/core-auth-oauth2#readme"
+}

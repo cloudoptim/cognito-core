@@ -1,0 +1,25 @@
+version: "3"
+services:
+  app:
+    build: .
+    image: coreauth
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+    command: ["-wait", "tcp://postgres:5432", "-timeout", "30s", "./node_modules/.bin/nodemon", "index.js" ]
+    ports:
+      - "3000:3000"
+    environment:
+      - CONFIG_SCHEME=local
+
+  postgres:
+    image: postgres
+    volumes:
+      - ./dumps/postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: coreauth

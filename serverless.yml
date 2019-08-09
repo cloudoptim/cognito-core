@@ -1,0 +1,36 @@
+service: core-auth-oauth2
+
+provider:
+  name: aws
+  app: core-auth-oauth2
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  profile: qpair-serverless
+  environment:
+    CONFIG_SCHEME: ${self:custom.configScheme.${self:provider.stage}}
+
+package:
+  exclude:
+    - dumps/**
+    - .git/**
+  excludeDevDependencies: true
+
+custom:
+  configScheme:
+    local: local
+    dev: dev-sls
+    prod: prod-sls
+
+functions:
+  app:
+    handler: handler.coreAuth
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: '{proxy+}'
+          method: ANY
+          cors: true

@@ -1,0 +1,9 @@
+node_modules
+bower_components
+Dockerfile
+dumps
+.git
+tmp
+.idea
+.sass-cache
+.vscode

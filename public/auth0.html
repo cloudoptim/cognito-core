@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Auth0 Login JavaScript Example</title>
+  <meta charset="UTF-8">
+  <script src="https://cdn.auth0.com/js/auth0/9.5.1/auth0.min.js"></script>
+</head>
+
+<body>
+
+  <button id="btnLogin">Log In</button>
+  <div id="secret">
+    <button id="getProfile">Get Profile</button>
+    <pre id="profile"></pre>
+    <button id="btnLogout">Logout</button>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+
+      refreshDisplay();
+
+      var webAuth = new auth0.WebAuth({
+        domain: 'foodapp1.auth0.com',
+        clientID: 'd2Hhzfb6v84Y31F3X2ue9SBB9QqURhQJ',
+        responseType: 'token id_token',
+        scope: 'openid email profile',
+        redirectUri: 'http://localhost:3000/auth0.html'
+      });
+
+      var loginBtn = document.getElementById('btnLogin');
+      var logoutBtn = document.getElementById('btnLogout');
+      var getProfileBtn = document.getElementById('getProfile');
+
+      loginBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        webAuth.authorize();
+      });
+
+      logoutBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('id_token');
+        refreshDisplay();
+      });
+
+      getProfileBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        let token = localStorage.getItem('id_token');
+        fetch('/profile', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type': 'application/json'
+          },
+        }).then(res => res.json()).then(res => document.getElementById('profile').innerText = JSON.stringify(res, null, 2));
+      });
+
+      // Parsing parameters from auth0, should implement from redirectUri callback
+      webAuth.parseHash(function(err, authResult) {
+        if (authResult && authResult.accessToken && authResult.idToken) {
+          window.location.hash = '';
+          onSignIn(authResult);
+          refreshDisplay();
+        } else if (err) {
+          console.error(err);
+          alert('Error: ' + err.error + '. Check the console for further details.');
+        }
+      });
+    });
+
+    function onSignIn(authResult) {
+      // The accessToken you need to pass to your backend:
+      var { idToken, accessToken } = authResult;
+      // You need to save the idToken to local storage and use it for Authorization header (e.g. localStorage)
+      // `Authorization: Bearer idToken`
+      console.log('ID Token:', idToken);
+      localStorage.setItem('id_token', idToken);
+
+      // Post accessToken, idToken to this API to register auth0 user to our system.
+      fetch('/connect/auth0', {
+        body: JSON.stringify({ accessToken, idToken, role: 'DINER' }),
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'user-agent': 'Mozilla/4.0 MDN Example',
+          'content-type': 'application/json'
+        },
+        method: 'POST',
+        mode: 'cors',
+        redirect: 'follow',
+        referrer: 'no-referrer',
+      }).then(res => res.json()).then(res => console.log(res));
+    }
+
+
+    function refreshDisplay() {
+      var secretDiv = document.getElementById('secret');
+      var loginBtn = document.getElementById('btnLogin');
+
+      var token = localStorage.getItem('id_token');
+      if (token) {
+        secretDiv.style.display = 'block';
+        loginBtn.style.display = 'none';
+      } else {
+        secretDiv.style.display = 'none';
+        loginBtn.style.display = 'block';
+      }
+    }
+  </script>
+
+</body>
+
+</html>
