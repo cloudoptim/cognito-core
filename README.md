@@ -1,5 +1,5 @@
 # core-auth-oauth2
-Authentication service using Auth0
+Authentication service using cognito
 
 ## Serverless Deployment
 1. Create `config/env/.dev-sls.json` and `config/env/.prod-sls.json` file with following data (the values are depending on your environment)
