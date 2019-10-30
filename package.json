@@ -14,7 +14,7 @@
     "passport-oauth2-cognito": "^0.1.0",
     "pg": "^7.5.0",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.41.0",
+    "sequelize": "^5.15.1",
     "serverless-http": "^1.8.0",
     "winston": "^3.1.0"
   },
